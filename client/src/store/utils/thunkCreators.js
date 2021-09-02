@@ -71,7 +71,10 @@ export const logout = (id) => async (dispatch) => {
 
 export const fetchConversations = () => async (dispatch) => {
   try {
-    const { data } = await axios.get("/api/conversations");    
+    const { data } = await axios.get("/api/conversations");
+    console.log('fetched convos', data)
+    
+
     dispatch(gotConversations(data));
   } catch (error) {
     console.error(error);
@@ -79,7 +82,9 @@ export const fetchConversations = () => async (dispatch) => {
 };
 
 const saveMessage = async (body) => {
+  console.log('bpdy', body)
   const { data } = await axios.post("/api/messages", body);
+  console.log('data api' , data)
   return data;
 };
 
@@ -96,10 +101,15 @@ const sendMessage = (data, body) => {
 export const postMessage = (body) => async (dispatch) => {
   try {
     const data = await saveMessage(body);
+    // const data = saveMessage(body).then((response) => {
+    //   return response
+    // })
+    console.log('fetched data', data)
 
     if (!body.conversationId) {
       dispatch(addConversation(body.recipientId, data.message));
     } else {
+      console.log('data message', data.message)
       dispatch(setNewMessage(data.message));
     }
 

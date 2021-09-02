@@ -74,6 +74,7 @@ const reducer = (state = [], action) => {
     case GET_CONVERSATIONS:
       return action.conversations;
     case SET_MESSAGE:
+      console.log('action payload', action)
       return addMessageToStore(state, action.payload);
     case ADD_ONLINE_USER: {
       return addOnlineUserToStore(state, action.id);
@@ -86,6 +87,7 @@ const reducer = (state = [], action) => {
     case CLEAR_SEARCHED_USERS:
       return state.filter((convo) => convo.id);
     case ADD_CONVERSATION:
+      console.log('conversation to add', state, action.payload.recipientId, action.payload.newMessage)
       return addNewConvoToStore(
         state,
         action.payload.recipientId,
