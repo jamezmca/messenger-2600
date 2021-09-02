@@ -5,12 +5,10 @@ import { SenderBubble, OtherUserBubble } from "../ActiveChat";
 import moment from "moment";
 
 const Messages = (props) => {
-  //going to sort the messages by time
+  //going to merge sort the messages by time
   function merge(left, right) {
     let arr = []
-    // Break out of loop if any one of the array gets empty
     while (left.length && right.length) {
-      // Pick the smaller among the smallest element of left and right sub arrays 
       if (left.createdAt < right.createdAt) {
         arr.push(left.shift())
       } else {
@@ -33,8 +31,6 @@ const Messages = (props) => {
   }
 
   const { messages, otherUser, userId } = props;
-  console.log(orderMessagesByTime([...messages]))
-  console.log('messages', messages)
 
   return (
     <Box>
