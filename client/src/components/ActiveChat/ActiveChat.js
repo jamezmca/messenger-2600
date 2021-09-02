@@ -21,10 +21,11 @@ const useStyles = makeStyles(() => ({
 }));
 
 const ActiveChat = (props) => {
+  console.log('active chat props', props)
   const classes = useStyles();
   const { user } = props;
   const conversation = props.conversation || {};
-
+  console.log('conversation messages', conversation.messages)
   return (
     <Box className={classes.root}>
       {conversation.otherUser && (
@@ -52,6 +53,15 @@ const ActiveChat = (props) => {
 };
 
 const mapStateToProps = (state) => {
+  console.log('latest state', state)
+  console.log('latest state return',{
+    user: state.user,
+    conversation:
+      state.conversations &&
+      state.conversations.find(
+        (conversation) => conversation.otherUser.username === state.activeConversation
+      )
+  })
   return {
     user: state.user,
     conversation:
