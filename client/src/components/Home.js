@@ -55,7 +55,7 @@ const Home = (props) => {
 };
 
 const mapStateToProps = (state) => {
-  return {
+    return {
     user: state.user,
     conversations: state.conversations
   };
