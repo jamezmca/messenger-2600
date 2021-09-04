@@ -12,6 +12,7 @@ import {
 } from "@material-ui/core";
 import { makeStyles } from '@material-ui/core/styles';
 import { login } from "./store/utils/thunkCreators";
+import image from './assets/images/bg-img.png'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -19,7 +20,7 @@ const useStyles = makeStyles((theme) => ({
     width: '100vw'
   },
   image: {
-    backgroundImage: "url('./assets/images/bg-img.png')",
+    backgroundImage: image,
     backgroundRepeat: 'no-repeat',
     backgroundColor: theme.palette.type === 'light' ? theme.palette.grey[50] : theme.palette.grey[900],
     backgroundSize: 'cover',
@@ -65,7 +66,9 @@ const Login = (props) => {
     <Grid container justifyContent="center">
       <Box>
         {/* this one for image */}
-        <Grid item xs={false} sm={4} className={classes.image} />
+        <Grid container item xs={false} sm={4}>
+          <img src={image} alt="cool"/>
+        </Grid>
 
         {/* this one for inputs */}
         <Grid container item justifyContent="center" xs={12}>
@@ -104,6 +107,7 @@ const Login = (props) => {
                   type="password"
                   name="password"
                 />
+                <span role="button">Hi</span>
               </FormControl>
             </Grid>
             <Grid container item xs={12} justifyContent="center">
