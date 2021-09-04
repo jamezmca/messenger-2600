@@ -8,29 +8,26 @@ import {
   Button,
   FormControl,
   TextField,
-  CardMedia
+  Hidden
 } from "@material-ui/core";
 import { makeStyles } from '@material-ui/core/styles';
 import { login } from "./store/utils/thunkCreators";
-import image from './assets/images/bg-img.png'
+import Image from 'material-ui-image'
+import image from './assets/bg-img.png'
+// const image = require('./assets/bg-img.png')
+console.log(image)
 
+//for the stoopid fookin button grid position relative and then the span absolute
 const useStyles = makeStyles((theme) => ({
   root: {
-    height: '100vh',
+    minHeight: '100vh',
     width: '100vw'
   },
   image: {
-    backgroundImage: image,
     backgroundRepeat: 'no-repeat',
     backgroundColor: theme.palette.type === 'light' ? theme.palette.grey[50] : theme.palette.grey[900],
     backgroundSize: 'cover',
-    backgroundPosition: 'center'
-  },
-  paper: {
-    margin: theme.spacing(8, 4),
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center'
+    backgroundPosition: 'center',
   },
   avatar: {
     margin: theme.spacing(1),
@@ -38,11 +35,24 @@ const useStyles = makeStyles((theme) => ({
   },
   form: {
     width: '100%',
-    marginTop: theme.spacing(1)
+    marginTop: theme.spacing(1),
+    flexGrow: 1
   },
   submit: {
     margin: theme.spacing(3, 0, 2)
+  },
+  span: {
+    right: 10,
+    top: '50%',
+    position: 'absolute',
+  },
+  box: {
+    display: 'flex'
+  },
+  passwordInput: {
+    position: 'relative'
   }
+
 }))
 
 const Login = (props) => {
@@ -64,16 +74,21 @@ const Login = (props) => {
 
   return (
     <Grid container justifyContent="center">
-      <Box>
+      <Box className={classes.box}>
         {/* this one for image */}
-        <Grid container item xs={false} sm={4}>
-          <img src={image} alt="cool"/>
-        </Grid>
+        <Hidden xsDown>
+          {/* <Grid item className={classes.image} sm={4} /> */}
+          {/* just use a normal img prop */}
+          <Grid item sm={4}>
+            <img src={image} alt="cool" />
+          </Grid>
+        </Hidden>
+
 
         {/* this one for inputs */}
-        <Grid container item justifyContent="center" xs={12}>
+        <Grid container item xs={12} sm={8}>
           {/* this one for the register */}
-          <Grid container item xs={12} alignItems="center" justifyContent="flex-end">
+          <Grid container item xs={12} alignItems="center" justifyContent="center">
             <Typography>Don't have an account?</Typography>
             <Button
               variant="outlined"
@@ -82,40 +97,42 @@ const Login = (props) => {
               onClick={() => history.push("/register")}>Create account</Button>
           </Grid>
 
-          {/* this one for the header */}
-          <Grid item xs={12}>
-            <Typography variant="h4">Welcome back!</Typography>
-          </Grid>
 
-          {/* this one for the form */}
-          <Grid container item xs={12} >
-            <Grid item xs={12} >
-              <FormControl margin="normal" required fullWidth >
-                <TextField
-                  aria-label="username"
-                  label="Username"
-                  name="username"
-                  type="text"
-                />
-              </FormControl>
-            </Grid>
-            <Grid item xs={12} >
-              <FormControl margin="normal" required fullWidth>
-                <TextField
-                  label="Password"
-                  aria-label="password"
-                  type="password"
-                  name="password"
-                />
-                <span role="button">Hi</span>
-              </FormControl>
-            </Grid>
-            <Grid container item xs={12} justifyContent="center">
-              <Button type="submit" variant="contained" size="large" color="primary">
-                Login
+          <form>
+            {/* this one for the form */}
+            <Grid container item xs={12}>
+              {/* this one for the header */}
+              <Grid item xs={12}>
+                <Typography variant="h4">Welcome back!</Typography>
+              </Grid>
+              <Grid item xs={12} >
+                <FormControl margin="normal" required fullWidth >
+                  <TextField
+                    aria-label="username"
+                    label="Username"
+                    name="username"
+                    type="text"
+                  />
+                </FormControl>
+              </Grid>
+              <Grid container item xs={12} >
+                <FormControl margin="normal" required fullWidth className={classes.passwordInput}>
+                  <TextField
+                    label="Password"
+                    aria-label="password"
+                    type="password"
+                    name="password"
+                  />
+                  <span role="button" className={classes.span}>Hi</span>
+                </FormControl>
+              </Grid>
+              <Grid container item xs={12} justifyContent="center">
+                <Button type="submit" variant="contained" size="large" color="primary">
+                  Login
               </Button>
+              </Grid>
             </Grid>
-          </Grid>
+          </form>
         </Grid>
       </Box>
     </Grid>
