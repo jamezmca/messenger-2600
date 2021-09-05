@@ -28,6 +28,8 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: theme.palette.type === 'light' ? theme.palette.grey[50] : theme.palette.grey[900],
     backgroundSize: 'cover',
     backgroundPosition: 'center',
+    height: 'auto',
+    maxWidth: '100%'
   },
   avatar: {
     margin: theme.spacing(1),
@@ -43,14 +45,29 @@ const useStyles = makeStyles((theme) => ({
   },
   span: {
     right: 10,
-    top: '50%',
+    top: '55%',
     position: 'absolute',
+    fontSize: 12,
+    color: theme.palette.primary.main
   },
   box: {
     display: 'flex'
   },
   passwordInput: {
     position: 'relative'
+  },
+  createAccountButton: {
+    marginLeft: 30,
+    border: 'none',
+    boxShadow: '0 0 4px 1px hsla(10, 10%, 65%, 0.3), 0 0 2px 8px hsla(10, 10%, 90%, 0.2)',
+    fontSize: 12,
+  },
+  loginButton: {
+    marginTop: 40,
+    
+  },
+  contentContainer: {
+    padding: 30
   }
 
 }))
@@ -73,27 +90,26 @@ const Login = (props) => {
   }
 
   return (
-    <Grid container justifyContent="center">
+    <Grid container className={classes.root} justifyContent="center" alignItems="center">
       <Box className={classes.box}>
         {/* this one for image */}
         <Hidden xsDown>
-          {/* <Grid item className={classes.image} sm={4} /> */}
-          {/* just use a normal img prop */}
-          <Grid item sm={4}>
-            <img src={image} alt="cool" />
+          <Grid item sm={5} container>
+            <img src={image} alt="people messaging" className={classes.image}/>
           </Grid>
         </Hidden>
 
 
         {/* this one for inputs */}
-        <Grid container item xs={12} sm={8}>
+        <Grid container item xs={12} sm={7} className={classes.contentContainer}>
           {/* this one for the register */}
-          <Grid container item xs={12} alignItems="center" justifyContent="center">
-            <Typography>Don't have an account?</Typography>
+          <Grid container item xs={12} sm={12} alignItems="center" justifyContent="flex-end">
+            <Typography variant="subtitle2">Don't have an account?</Typography>
             <Button
               variant="outlined"
               color="primary"
               size="large"
+              className={classes.createAccountButton}
               onClick={() => history.push("/register")}>Create account</Button>
           </Grid>
 
@@ -123,11 +139,11 @@ const Login = (props) => {
                     type="password"
                     name="password"
                   />
-                  <span role="button" className={classes.span}>Hi</span>
+                  <span role="button" className={classes.span}>Forgot?</span>
                 </FormControl>
               </Grid>
               <Grid container item xs={12} justifyContent="center">
-                <Button type="submit" variant="contained" size="large" color="primary">
+                <Button type="submit" variant="contained" size="large" color="primary" className={classes.loginButton}>
                   Login
               </Button>
               </Grid>
