@@ -29,7 +29,7 @@ const useStyles = makeStyles((theme) => ({
     backgroundSize: 'cover',
     backgroundPosition: 'center',
     height: 'auto',
-    maxWidth: '100%'
+    maxWidth: '100%',
   },
   avatar: {
     margin: theme.spacing(1),
@@ -45,10 +45,11 @@ const useStyles = makeStyles((theme) => ({
   },
   span: {
     right: 10,
-    top: '55%',
+    top: '50%',
     position: 'absolute',
     fontSize: 12,
-    color: theme.palette.primary.main
+    color: theme.palette.primary.main,
+    cursor: 'pointer'
   },
   box: {
     display: 'flex'
@@ -61,13 +62,16 @@ const useStyles = makeStyles((theme) => ({
     border: 'none',
     boxShadow: '0 0 4px 1px hsla(10, 10%, 65%, 0.3), 0 0 2px 8px hsla(10, 10%, 90%, 0.2)',
     fontSize: 12,
+    border: '1px solid white'
   },
   loginButton: {
     marginTop: 40,
-    
   },
   contentContainer: {
     padding: 30
+  },
+  createAccountContainer: {
+    height: 'maxContent'
   }
 
 }))
@@ -94,7 +98,7 @@ const Login = (props) => {
       <Box className={classes.box}>
         {/* this one for image */}
         <Hidden xsDown>
-          <Grid item sm={5} container>
+          <Grid item sm={5} container justifyContent='flex-end'>
             <img src={image} alt="people messaging" className={classes.image}/>
           </Grid>
         </Hidden>
@@ -114,7 +118,7 @@ const Login = (props) => {
           </Grid>
 
 
-          <form>
+          <form className={classes.form}>
             {/* this one for the form */}
             <Grid container item xs={12}>
               {/* this one for the header */}
