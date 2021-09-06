@@ -22,7 +22,6 @@ const useStyles = makeStyles((theme) => ({
   root: {
     minHeight: '100vh',
     width: '100vw',
-    fontFamily: 'Open-sans'
   },
   image: {
     backgroundRepeat: 'no-repeat',
@@ -51,7 +50,7 @@ const useStyles = makeStyles((theme) => ({
     position: 'absolute',
     fontSize: 12,
     color: theme.palette.primary.main,
-    cursor: 'pointer'
+    cursor: 'pointer',
   },
   box: {
     display: 'flex'
@@ -62,14 +61,16 @@ const useStyles = makeStyles((theme) => ({
   createAccountButton: {
     marginLeft: 30,
     border: 'none',
-    boxShadow: '0 0 4px 1px hsla(10, 10%, 65%, 0.3), 0 0 2px 8px hsla(10, 10%, 90%, 0.2)',
+    boxShadow: '0 0 4px 1px hsla(10, 10%, 65%, 0.3), 0 0 2px 8px hsla(10, 10%, 90%, 0.3)',
     fontSize: 12,
     border: '1px solid white',
-    padding: '12px 25px'
+    padding: '12px 25px',
+    fontFamily: 'Monserrat'
+
   },
   loginButton: {
     marginTop: 40,
-    padding: '10px 50px'
+    padding: '10px 50px',
   },
   contentContainer: {
     padding: 30,
@@ -77,6 +78,12 @@ const useStyles = makeStyles((theme) => ({
   },
   createAccountContainer: {
     height: 'maxContent'
+  },
+  noAccountText: {
+    fontSize: 12,
+    color: '#aaa',
+    fontWeight: 600,
+    fontFamily: 'Montserrat'
   }
 
 }))
@@ -113,13 +120,15 @@ const Login = (props) => {
         <Grid container item xs={12} sm={7} className={classes.contentContainer}>
           {/* this one for the register */}
           <Grid container item xs={12} sm={12} alignItems="center" justifyContent="flex-end">
-            <Typography variant="subtitle2">Don't have an account?</Typography>
+            <Typography variant="body2" className={classes.noAccountText}>Don't have an account?</Typography>
             <Button
               variant="outlined"
               color="primary"
               size="large"
               className={classes.createAccountButton}
-              onClick={() => history.push("/register")}>Create account</Button>
+              onClick={() => history.push("/register")}>
+                <Typography className={classes.buttonText}>Create account</Typography>
+              </Button>
           </Grid>
 
 
