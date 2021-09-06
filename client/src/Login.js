@@ -14,10 +14,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import { login } from "./store/utils/thunkCreators";
 import Image from 'material-ui-image'
 import image from './assets/bg-img.png'
-// const image = require('./assets/bg-img.png')
-console.log(image)
 
-//for the stoopid fookin button grid position relative and then the span absolute
 const useStyles = makeStyles((theme) => ({
   root: {
     minHeight: '100vh',
@@ -30,6 +27,7 @@ const useStyles = makeStyles((theme) => ({
     backgroundPosition: 'center',
     height: 'auto',
     maxWidth: '100%',
+    maxHeight: '100vh'
   },
   avatar: {
     margin: theme.spacing(1),
@@ -46,11 +44,13 @@ const useStyles = makeStyles((theme) => ({
   },
   span: {
     right: 10,
-    top: '50%',
+    top: '52%',
     position: 'absolute',
-    fontSize: 12,
+    fontSize: 11,
     color: theme.palette.primary.main,
     cursor: 'pointer',
+    fontWeight: 800,
+    fontFamily: 'Montserrat'
   },
   box: {
     display: 'flex'
@@ -61,12 +61,11 @@ const useStyles = makeStyles((theme) => ({
   createAccountButton: {
     marginLeft: 30,
     border: 'none',
-    boxShadow: '0 0 4px 1px hsla(10, 10%, 65%, 0.3), 0 0 2px 8px hsla(10, 10%, 90%, 0.3)',
+    boxShadow: '0 0 4px 1px hsla(180, 50%, 65%, 0.3), 0 0 2px 8px hsla(10, 10%, 90%, 0.3)',
     fontSize: 12,
     border: '1px solid white',
     padding: '12px 25px',
     fontFamily: 'Monserrat'
-
   },
   loginButton: {
     marginTop: 40,
@@ -84,6 +83,11 @@ const useStyles = makeStyles((theme) => ({
     color: '#aaa',
     fontWeight: 600,
     fontFamily: 'Montserrat'
+  },
+  buttonText: {
+    fontFamily: 'Montserrat',
+    fontWeight: 600,
+    fontSize: 12,
   }
 
 }))
@@ -127,17 +131,17 @@ const Login = (props) => {
               size="large"
               className={classes.createAccountButton}
               onClick={() => history.push("/register")}>
-                <Typography className={classes.buttonText}>Create account</Typography>
+                <Typography variant="subtitle2" className={classes.buttonText}>Create account</Typography>
               </Button>
           </Grid>
 
 
-          <form className={classes.form}>
+          <form className={classes.form} onSubmit={handleLogin}>
             {/* this one for the form */}
             <Grid container item xs={12}>
               {/* this one for the header */}
               <Grid item xs={12}>
-                <Typography variant="h4">Welcome back!</Typography>
+                <Typography variant="h4" gutterBottom>Welcome back!</Typography>
               </Grid>
               <Grid item xs={12} >
                 <FormControl margin="normal" required fullWidth >
