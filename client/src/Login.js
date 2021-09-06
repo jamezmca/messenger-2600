@@ -12,8 +12,8 @@ import {
 } from "@material-ui/core";
 import { makeStyles } from '@material-ui/core/styles';
 import { login } from "./store/utils/thunkCreators";
-import Image from 'material-ui-image'
 import image from './assets/bg-img.png'
+import { ReactComponent as BubbleSVG } from './assets/bubble.svg'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -29,22 +29,33 @@ const useStyles = makeStyles((theme) => ({
     maxWidth: '100%',
     maxHeight: '100vh'
   },
-  avatar: {
-    margin: theme.spacing(1),
-    backgroundColor: theme.palette.secondary.main
+  imageContainer: {
+    position: 'relative',
+    maxWidth: 'max-content'
+
+  },
+  imageOverlay: {
+    position: 'absolute',
+    inset: '0 0 0 0',
+    color: 'white',
+    padding: '20%',
+    background: 'linear-gradient(to top, #86B9FFcc, #3A8DFFaa)',
   },
   form: {
     width: '100%',
     marginTop: theme.spacing(1),
     flexGrow: 1,
-    maxWidth: 400,
+    maxWidth: 350,
+    minHeight: '90%',
+    display: 'flex',
+    alignItems: 'center'
   },
   submit: {
     margin: theme.spacing(3, 0, 2)
   },
   span: {
     right: 10,
-    top: '52%',
+    top: '55%',
     position: 'absolute',
     fontSize: 11,
     color: theme.palette.primary.main,
@@ -53,14 +64,14 @@ const useStyles = makeStyles((theme) => ({
     fontFamily: 'Montserrat'
   },
   box: {
-    display: 'flex'
+    display: 'flex',
+    justifyContent: 'center'
   },
   passwordInput: {
-    position: 'relative'
+    position: 'relative',
   },
   createAccountButton: {
     marginLeft: 30,
-    border: 'none',
     boxShadow: '0 0 4px 1px hsla(180, 50%, 65%, 0.3), 0 0 2px 8px hsla(10, 10%, 90%, 0.3)',
     fontSize: 12,
     border: '1px solid white',
@@ -70,6 +81,7 @@ const useStyles = makeStyles((theme) => ({
   loginButton: {
     marginTop: 40,
     padding: '10px 50px',
+    fontFamily: 'Montserrat',
   },
   contentContainer: {
     padding: 30,
@@ -88,8 +100,16 @@ const useStyles = makeStyles((theme) => ({
     fontFamily: 'Montserrat',
     fontWeight: 600,
     fontSize: 12,
+  },
+  textField: {
+    padding: '10px 0 0 2px'
+  },
+  svgText: {
+    paddingBottom: 100
+  },
+  bubbleSVG: {
+    marginBottom: 40
   }
-
 }))
 
 const Login = (props) => {
@@ -114,16 +134,21 @@ const Login = (props) => {
       <Box className={classes.box}>
         {/* this one for image */}
         <Hidden xsDown>
-          <Grid item sm={5} container justifyContent='flex-end'>
-            <img src={image} alt="people messaging" className={classes.image}/>
+          <Grid item sm={5} container justifyContent='center' className={classes.imageContainer}>
+            <img src={image} alt="people messaging" className={classes.image} />
+            <Grid item container justifyContent="center" alignItems="center" className={classes.imageOverlay}>
+              <Typography variant="h5" align="center" className={classes.svgText}>
+                <BubbleSVG className={classes.bubbleSVG} />
+                <br />Converse with anyone with any language
+                </Typography>
+            </Grid>
           </Grid>
         </Hidden>
-
 
         {/* this one for inputs */}
         <Grid container item xs={12} sm={7} className={classes.contentContainer}>
           {/* this one for the register */}
-          <Grid container item xs={12} sm={12} alignItems="center" justifyContent="flex-end">
+          <Grid container item xs={12} sm={12} alignItems="center" justifyContent="flex-end" className={classes.registerContainer}>
             <Typography variant="body2" className={classes.noAccountText}>Don't have an account?</Typography>
             <Button
               variant="outlined"
@@ -131,17 +156,16 @@ const Login = (props) => {
               size="large"
               className={classes.createAccountButton}
               onClick={() => history.push("/register")}>
-                <Typography variant="subtitle2" className={classes.buttonText}>Create account</Typography>
-              </Button>
+              <Typography variant="subtitle2" className={classes.buttonText}>Create account</Typography>
+            </Button>
           </Grid>
-
 
           <form className={classes.form} onSubmit={handleLogin}>
             {/* this one for the form */}
             <Grid container item xs={12}>
               {/* this one for the header */}
               <Grid item xs={12}>
-                <Typography variant="h4" gutterBottom>Welcome back!</Typography>
+                <Typography variant="h5" gutterBottom><strong>Welcome back!</strong></Typography>
               </Grid>
               <Grid item xs={12} >
                 <FormControl margin="normal" required fullWidth >
@@ -150,6 +174,7 @@ const Login = (props) => {
                     label="Username"
                     name="username"
                     type="text"
+                    className={classes.textField}
                   />
                 </FormControl>
               </Grid>
@@ -160,8 +185,9 @@ const Login = (props) => {
                     aria-label="password"
                     type="password"
                     name="password"
+                    className={classes.textField}
                   />
-                  <span role="button" className={classes.span}>Forgot?</span>
+                  <span role="button" className={classes.span} onClick={() => { }}>Forgot?</span>
                 </FormControl>
               </Grid>
               <Grid container item xs={12} justifyContent="center">
