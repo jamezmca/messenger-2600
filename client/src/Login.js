@@ -21,7 +21,8 @@ console.log(image)
 const useStyles = makeStyles((theme) => ({
   root: {
     minHeight: '100vh',
-    width: '100vw'
+    width: '100vw',
+    fontFamily: 'Open-sans'
   },
   image: {
     backgroundRepeat: 'no-repeat',
@@ -38,7 +39,8 @@ const useStyles = makeStyles((theme) => ({
   form: {
     width: '100%',
     marginTop: theme.spacing(1),
-    flexGrow: 1
+    flexGrow: 1,
+    maxWidth: 400,
   },
   submit: {
     margin: theme.spacing(3, 0, 2)
@@ -62,13 +64,16 @@ const useStyles = makeStyles((theme) => ({
     border: 'none',
     boxShadow: '0 0 4px 1px hsla(10, 10%, 65%, 0.3), 0 0 2px 8px hsla(10, 10%, 90%, 0.2)',
     fontSize: 12,
-    border: '1px solid white'
+    border: '1px solid white',
+    padding: '12px 25px'
   },
   loginButton: {
     marginTop: 40,
+    padding: '10px 50px'
   },
   contentContainer: {
-    padding: 30
+    padding: 30,
+    justifyContent: 'center'
   },
   createAccountContainer: {
     height: 'maxContent'
