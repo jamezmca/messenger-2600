@@ -95,9 +95,6 @@ export const useStyles = makeStyles((theme) => ({
     },
     bubbleSVG: {
       marginBottom: 40
-    },
-    hsFormRequired: {
-      display: 'none'
     }
   }))
   
