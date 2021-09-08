@@ -6,18 +6,17 @@ export const useStyles = makeStyles((theme) => ({
       width: '100vw',
     },
     image: {
-      backgroundRepeat: 'no-repeat',
       backgroundColor: theme.palette.type === 'light' ? theme.palette.grey[50] : theme.palette.grey[900],
-      backgroundSize: 'cover',
       backgroundPosition: 'center',
-      height: 'auto',
+      height: '100vh',
+      width: 'auto',
       maxWidth: '100%',
       maxHeight: '100vh'
     },
     imageContainer: {
       position: 'relative',
-      maxWidth: 'max-content'
-  
+      maxWidth: 'max-content',
+      overflow: 'hidden'
     },
     imageOverlay: {
       position: 'absolute',
@@ -56,7 +55,6 @@ export const useStyles = makeStyles((theme) => ({
       position: 'relative',
     },
     createAccountButton: {
-      marginLeft: 30,
       boxShadow: '0 0 4px 1px hsla(180, 50%, 65%, 0.3), 0 0 2px 8px hsla(10, 10%, 90%, 0.3)',
       fontSize: 12,
       border: '1px solid white',
@@ -80,7 +78,8 @@ export const useStyles = makeStyles((theme) => ({
       fontSize: 12,
       color: '#aaa',
       fontWeight: 600,
-      fontFamily: 'Montserrat'
+      fontFamily: 'Montserrat',
+      margin: 20
     },
     buttonText: {
       fontFamily: 'Montserrat',
