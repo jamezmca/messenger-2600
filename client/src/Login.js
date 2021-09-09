@@ -6,14 +6,18 @@ import {
   Box,
   Typography,
   Button,
-  FormControl,
-  TextField,
+
+  Hidden
 } from "@material-ui/core";
 import { login } from "./store/utils/thunkCreators";
+import { useStyles } from './loginStyles'
+import LoginImage from "./components/Login/LoginImage";
+import Form from "./components/Login/Form";
 
 const Login = (props) => {
   const history = useHistory();
   const { user, login } = props;
+  const classes = useStyles()
 
   const handleLogin = async (event) => {
     event.preventDefault();
@@ -28,39 +32,29 @@ const Login = (props) => {
   }
 
   return (
-    <Grid container justifyContent="center">
-      <Box>
-        <Grid container item>
-          <Typography>Need to register?</Typography>
-          <Button onClick={() => history.push("/register")}>Register</Button>
-        </Grid>
-        <form onSubmit={handleLogin}>
-          <Grid>
-            <Grid>
-              <FormControl margin="normal" required>
-                <TextField
-                  aria-label="username"
-                  label="Username"
-                  name="username"
-                  type="text"
-                />
-              </FormControl>
-            </Grid>
-            <FormControl margin="normal" required>
-              <TextField
-                label="password"
-                aria-label="password"
-                type="password"
-                name="password"
-              />
-            </FormControl>
-            <Grid>
-              <Button type="submit" variant="contained" size="large">
-                Login
-              </Button>
-            </Grid>
+    <Grid container className={classes.root} justifyContent="center" alignItems="center">
+      <Box className={classes.box}>
+        {/* this one for image */}
+        <Hidden xsDown>
+          <LoginImage/>
+        </Hidden>
+
+        {/* this one for inputs */}
+        <Grid container item xs={12} sm={7} className={classes.contentContainer}>
+          {/* this one for the register */}
+          <Grid container item xs={12} sm={12} alignItems="center" justifyContent="flex-end">
+            <Typography variant="body2" className={classes.noAccountText}>Don't have an account?</Typography>
+            <Button
+              variant="outlined"
+              color="primary"
+              size="large"
+              className={classes.createAccountButton}
+              onClick={() => history.push("/register")}>
+              <Typography variant="subtitle2" className={classes.buttonText}>Create account</Typography>
+            </Button>
           </Grid>
-        </form>
+          <Form type='login' handleLogin={handleLogin}/>
+        </Grid>
       </Box>
     </Grid>
   );
