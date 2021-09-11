@@ -24,6 +24,9 @@ const useStyles = makeStyles(() => ({
   bubble: {
     background: "#F4F6FA",
     borderRadius: "10px 10px 0 10px"
+  },
+  image: {
+    maxWidth: 100
   }
 }));
 
@@ -43,8 +46,8 @@ const SenderBubble = (props) => {
     <Box className={classes.root}>
       <Typography className={classes.date}>{time}</Typography>
       <Box className={classes.bubble}>
-        {attachments.map(attachment => {
-          return <img src={attachment} alt="image"/>
+        {attachments.map((attachment, i) => {
+          return <img src={attachment} alt="nicenice" key={`${attachment}${i}`} className={classes.image}/>
         })}
         
         <Typography className={classes.text}>{text}</Typography>

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { FormControl, FilledInput, Typography, Button } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import { connect } from "react-redux";
@@ -45,34 +45,34 @@ const useStyles = makeStyles(() => ({
 const Input = (props) => {
   const classes = useStyles();
   const [text, setText] = useState("");
-  const [uploadedImage, setUploadedImage] = useState({image: []})
+  const [uploadedImage, setUploadedImage] = useState({ image: [] })
   const [loading, setLoading] = useState(false)
   const { postMessage, otherUser, conversationId, user } = props;
-  const [selectedFiles, setSelectedFiles] = useState([])
+  const [imagesCount, setImagesCount] = useState(0)
 
   async function fileSelectedHandler({ target }) {
     const { files } = target
     const formData = new FormData()
     formData.append('file', files[0])
     formData.append('upload_preset', 'glpgu45w')
+    try {
+      const res = await fetch('https://api.cloudinary.com/v1_1/dzb4lljto/image/upload', {
+        method: "POST",
+        body: formData
+      })
 
-    const res = await fetch('https://api.cloudinary.com/v1_1/dzb4lljto/image/upload', {
-      method: "POST",
-      body: formData
-    })
-    console.log(res)
-
-    const { secure_url } = await res.json()
-
-    setUploadedImage({
-      image: [...uploadedImage.image, secure_url]
-      // largeImage: eager[0].secure_url,
-    })
-
-    console.log(uploadedImage)
-
-    setLoading(false)
+      const { secure_url } = await res.json()
+      let newState = {
+        image: [...uploadedImage.image, secure_url]
+      }
+      setUploadedImage(() => newState)
+    } catch (err) {
+      console.log(err)
+    }
   }
+  useEffect(() => {
+    setImagesCount(uploadedImage.image.length)
+  }, [uploadedImage])
 
   const handleChange = (event) => {
     setText(event.target.value);
@@ -90,10 +90,10 @@ const Input = (props) => {
       attachments: [...uploadedImage.image]
     };
 
-    
+
     await postMessage(reqBody);
     setText("");
-    setUploadedImage({image: []})
+    setUploadedImage({ image: [] })
     setLoading(true)
   };
 
@@ -119,8 +119,8 @@ const Input = (props) => {
           onChange={fileSelectedHandler}
         />
         <FileCopyIcon />
-        {selectedFiles.length > 0 && (
-          <Typography className={classes.numberOfFiles}>{uploadedImage.image.length}</Typography>
+        {imagesCount > 0 && (
+          <Typography className={classes.numberOfFiles}>{imagesCount}</Typography>
         )}
       </Button>
     </form>
