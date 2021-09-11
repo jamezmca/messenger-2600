@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { FormControl, FilledInput, Typography, Button } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import { connect } from "react-redux";
@@ -48,7 +48,6 @@ const Input = (props) => {
   const [uploadedImage, setUploadedImage] = useState({ image: [] })
   const [loading, setLoading] = useState(false)
   const { postMessage, otherUser, conversationId, user } = props;
-  const [imagesCount, setImagesCount] = useState(0)
 
   async function fileSelectedHandler({ target }) {
     const { files } = target
@@ -70,9 +69,6 @@ const Input = (props) => {
       console.log(err)
     }
   }
-  useEffect(() => {
-    setImagesCount(uploadedImage.image.length)
-  }, [uploadedImage])
 
   const handleChange = (event) => {
     setText(event.target.value);
@@ -80,7 +76,6 @@ const Input = (props) => {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    if (loading) return
     // add sender user info if posting to a brand new convo, so that the other user will have access to username, profile pic, etc.
     const reqBody = {
       text: event.target.text.value,
@@ -119,9 +114,6 @@ const Input = (props) => {
           onChange={fileSelectedHandler}
         />
         <FileCopyIcon />
-        {imagesCount > 0 && (
-          <Typography className={classes.numberOfFiles}>{imagesCount}</Typography>
-        )}
       </Button>
     </form>
   );
