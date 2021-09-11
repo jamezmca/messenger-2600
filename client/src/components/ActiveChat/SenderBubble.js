@@ -29,8 +29,8 @@ const useStyles = makeStyles(() => ({
 
 const SenderBubble = (props) => {
   const classes = useStyles();
-  const { time, text } = props;
-  return (
+  const { time, text, attachments } = props;
+  if (attachments === null) return (
     <Box className={classes.root}>
       <Typography className={classes.date}>{time}</Typography>
       <Box className={classes.bubble}>
@@ -38,6 +38,17 @@ const SenderBubble = (props) => {
       </Box>
     </Box>
   );
+
+  return (
+    <Box className={classes.root}>
+      <Typography className={classes.date}>{time}</Typography>
+      <Box className={classes.bubble}>
+        <img src={attachments[0]} alt="image"/>
+        <Typography className={classes.text}>{text}</Typography>
+      </Box>
+    </Box>
+  )
+
 };
 
 export default SenderBubble;

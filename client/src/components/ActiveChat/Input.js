@@ -1,6 +1,5 @@
 import React, { useState } from "react";
-import Axios from 'axios'
-import { FormControl, FilledInput, Typography } from "@material-ui/core";
+import { FormControl, FilledInput, Typography, Button } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import { connect } from "react-redux";
 import { postMessage } from "../../store/utils/thunkCreators";
@@ -22,50 +21,57 @@ const useStyles = makeStyles(() => ({
   uploadButton: {
     position: 'absolute',
     top: '25%',
-    right: '1em',
+    right: 0,
     margin: 0,
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
     cursor: 'pointer',
-    color: '#7bd'
+    color: '#7bd',
+    padding: 0
   },
   fileInput: {
-    display: 'none'
+    display: 'none',
   },
   numberOfFiles: {
     fontSize: 10,
     position: 'absolute',
     marginTop: '1.1em',
     marginLeft: '1em',
-    color: 'white'
+    color: 'white',
   }
 }));
 
 const Input = (props) => {
   const classes = useStyles();
   const [text, setText] = useState("");
+  const [uploadedImage, setUploadedImage] = useState({})
+  const [loading, setLoading] = useState(false)
   const { postMessage, otherUser, conversationId, user } = props;
-  const [selectedFiles, setSelectedFiles] = useState({})
+  const [selectedFiles, setSelectedFiles] = useState([])
 
-  function fileSelectedHandler(event) {
-    console.log(event.target.files[0])
-    setSelectedFiles({ ...selectedFiles, [event.target.files[0].name]: event.target.files[0] })
-  }
-
-  function fileUploadHandler() {
+  async function fileSelectedHandler({ target }) {
+    const { files } = target
     const formData = new FormData()
-    formData.append('file', selectedFiles)
+    formData.append('file', files[0])
     formData.append('upload_preset', 'glpgu45w')
 
-    Axios.post(
-      'https://api.cloudinary.com/v1_1/dzb4lljto/image/upload',
-      formData
-    ).then((response) => {
-      console.log(response)
+    const res = await fetch('https://api.cloudinary.com/v1_1/dzb4lljto/image/upload', {
+      method: "POST",
+      body: formData
     })
-    selectedFiles({})
+    console.log(res)
+
+    const { secure_url } = await res.json()
+
+    setUploadedImage({
+      image: secure_url,
+      // largeImage: eager[0].secure_url,
+    });
+
+    setLoading(false)
   }
+  console.log(selectedFiles)
 
   const handleChange = (event) => {
     setText(event.target.value);
@@ -73,16 +79,21 @@ const Input = (props) => {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
+    if (loading) return
     // add sender user info if posting to a brand new convo, so that the other user will have access to username, profile pic, etc.
     const reqBody = {
       text: event.target.text.value,
       recipientId: otherUser.id,
       conversationId,
       sender: conversationId ? null : user,
-      attachments: []
+      attachments: [uploadedImage.image]
     };
+
+    
     await postMessage(reqBody);
     setText("");
+    setUploadedImage({})
+    setLoading(true)
   };
 
   return (
@@ -97,17 +108,20 @@ const Input = (props) => {
           onChange={handleChange}
         />
       </FormControl>
-      <FormControl className={classes.uploadButton}>
-        <FilledInput
+      <Button
+        className={classes.uploadButton}
+        component="label"
+      >
+        <input
           type="file"
           className={classes.fileInput}
           onChange={fileSelectedHandler}
         />
         <FileCopyIcon />
-        {Object.keys(selectedFiles).length > 0 && (
-          <Typography className={classes.numberOfFiles}>{Object.keys(selectedFiles).length}</Typography>
+        {selectedFiles.length > 0 && (
+          <Typography className={classes.numberOfFiles}>{selectedFiles.length}</Typography>
         )}
-      </FormControl>
+      </Button>
     </form>
   );
 };
