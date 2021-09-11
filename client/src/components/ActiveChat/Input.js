@@ -45,7 +45,7 @@ const useStyles = makeStyles(() => ({
 const Input = (props) => {
   const classes = useStyles();
   const [text, setText] = useState("");
-  const [uploadedImage, setUploadedImage] = useState({})
+  const [uploadedImage, setUploadedImage] = useState({image: []})
   const [loading, setLoading] = useState(false)
   const { postMessage, otherUser, conversationId, user } = props;
   const [selectedFiles, setSelectedFiles] = useState([])
@@ -65,13 +65,14 @@ const Input = (props) => {
     const { secure_url } = await res.json()
 
     setUploadedImage({
-      image: secure_url,
+      image: [...uploadedImage.image, secure_url]
       // largeImage: eager[0].secure_url,
-    });
+    })
+
+    console.log(uploadedImage)
 
     setLoading(false)
   }
-  console.log(selectedFiles)
 
   const handleChange = (event) => {
     setText(event.target.value);
@@ -86,13 +87,13 @@ const Input = (props) => {
       recipientId: otherUser.id,
       conversationId,
       sender: conversationId ? null : user,
-      attachments: [uploadedImage.image]
+      attachments: [...uploadedImage.image]
     };
 
     
     await postMessage(reqBody);
     setText("");
-    setUploadedImage({})
+    setUploadedImage({image: []})
     setLoading(true)
   };
 
@@ -119,7 +120,7 @@ const Input = (props) => {
         />
         <FileCopyIcon />
         {selectedFiles.length > 0 && (
-          <Typography className={classes.numberOfFiles}>{selectedFiles.length}</Typography>
+          <Typography className={classes.numberOfFiles}>{uploadedImage.image.length}</Typography>
         )}
       </Button>
     </form>

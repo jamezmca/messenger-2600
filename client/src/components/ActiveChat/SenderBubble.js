@@ -43,7 +43,10 @@ const SenderBubble = (props) => {
     <Box className={classes.root}>
       <Typography className={classes.date}>{time}</Typography>
       <Box className={classes.bubble}>
-        <img src={attachments[0]} alt="image"/>
+        {attachments.map(attachment => {
+          return <img src={attachment} alt="image"/>
+        })}
+        
         <Typography className={classes.text}>{text}</Typography>
       </Box>
     </Box>
