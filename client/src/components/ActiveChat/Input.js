@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { FormControl, FilledInput, Typography, Button } from "@material-ui/core";
+import { FormControl, FilledInput, Button } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import { connect } from "react-redux";
 import { postMessage } from "../../store/utils/thunkCreators";
@@ -46,7 +46,6 @@ const Input = (props) => {
   const classes = useStyles();
   const [text, setText] = useState("");
   const [uploadedImage, setUploadedImage] = useState({ image: [] })
-  const [loading, setLoading] = useState(false)
   const { postMessage, otherUser, conversationId, user } = props;
 
   async function fileSelectedHandler({ target }) {
@@ -89,7 +88,6 @@ const Input = (props) => {
     await postMessage(reqBody);
     setText("");
     setUploadedImage({ image: [] })
-    setLoading(true)
   };
 
   return (
