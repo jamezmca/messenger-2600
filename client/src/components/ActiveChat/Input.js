@@ -32,13 +32,6 @@ const useStyles = makeStyles(() => ({
   },
   fileInput: {
     display: 'none',
-  },
-  numberOfFiles: {
-    fontSize: 10,
-    position: 'absolute',
-    marginTop: '1.1em',
-    marginLeft: '1em',
-    color: 'white',
   }
 }));
 
