@@ -5,7 +5,6 @@ import { connect } from "react-redux";
 import { postMessage } from "../../store/utils/thunkCreators";
 import FileCopyIcon from '@material-ui/icons/FileCopy';
 
-
 const useStyles = makeStyles(() => ({
   root: {
     justifySelf: "flex-end",
@@ -38,27 +37,30 @@ const useStyles = makeStyles(() => ({
 const Input = (props) => {
   const classes = useStyles();
   const [text, setText] = useState("");
-  const [uploadedImage, setUploadedImage] = useState({ image: [] })
+  const [uploadedImage, setUploadedImage] = useState([])
   const { postMessage, otherUser, conversationId, user } = props;
 
   async function fileSelectedHandler({ target }) {
     const { files } = target
-    const formData = new FormData()
-    formData.append('file', files[0])
-    formData.append('upload_preset', 'glpgu45w')
     try {
-      const res = await fetch('https://api.cloudinary.com/v1_1/dzb4lljto/image/upload', {
-        method: "POST",
-        body: formData
-      })
+      let secure_urls = await Promise.all(
+        Array.from(files).map((file) => file).map(async file => {
+          const formData = new FormData()
+          formData.append('file', file)
+          formData.append('upload_preset', `${process.env.REACT_APP_UPLOAD_PRESET}`)
 
-      const { secure_url } = await res.json()
-      let newState = {
-        image: [...uploadedImage.image, secure_url]
-      }
-      setUploadedImage(() => newState)
+          const res = await fetch(`https://api.cloudinary.com/v1_1/${process.env.REACT_APP_CLOUD_NAME}/image/upload`, {
+            method: "POST",
+            body: formData
+          })
+          const { secure_url } = await res.json()
+          return secure_url
+        })
+      )
+      setUploadedImage([...uploadedImage, ...secure_urls])
+
     } catch (err) {
-      console.log(err)
+      console.error(err)
     }
   }
 
@@ -74,17 +76,17 @@ const Input = (props) => {
       recipientId: otherUser.id,
       conversationId,
       sender: conversationId ? null : user,
-      attachments: [...uploadedImage.image]
+      attachments: uploadedImage
     };
 
 
-    await postMessage(reqBody);
+    await postMessage(reqBody)
     setText("");
     setUploadedImage({ image: [] })
   };
 
   return (
-    <form className={classes.root} onSubmit={handleSubmit}>
+    <form className={classes.root} onSubmit={handleSubmit} encType='multipart/form-data'>
       <FormControl fullWidth hiddenLabel>
         <FilledInput
           classes={{ root: classes.input }}
@@ -103,6 +105,7 @@ const Input = (props) => {
           type="file"
           className={classes.fileInput}
           onChange={fileSelectedHandler}
+          multiple
         />
         <FileCopyIcon />
       </Button>
