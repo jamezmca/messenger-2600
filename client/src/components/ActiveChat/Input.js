@@ -82,7 +82,7 @@ const Input = (props) => {
 
     await postMessage(reqBody)
     setText("");
-    setUploadedImage({ image: [] })
+    setUploadedImage([])
   };
 
   return (
