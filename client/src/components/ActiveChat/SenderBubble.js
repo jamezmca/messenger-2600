@@ -24,13 +24,22 @@ const useStyles = makeStyles(() => ({
   bubble: {
     background: "#F4F6FA",
     borderRadius: "10px 10px 0 10px"
+  },
+  image: {
+    maxHeight: 100,
+    borderRadius: '10px 10px 0px 10px',
+    margin: 5
+  },
+  imageText: {
+    maxHeight: 100,
+    borderRadius: '10px 10px 0px 10px',
   }
 }));
 
 const SenderBubble = (props) => {
   const classes = useStyles();
-  const { time, text } = props;
-  return (
+  const { time, text, attachments } = props;
+  if (attachments === null) return (
     <Box className={classes.root}>
       <Typography className={classes.date}>{time}</Typography>
       <Box className={classes.bubble}>
@@ -38,6 +47,25 @@ const SenderBubble = (props) => {
       </Box>
     </Box>
   );
+
+  return (
+    <Box className={classes.root}>
+      <Typography className={classes.date}>{time}</Typography>
+      {(attachments.length === 1 && text === "") && <img src={attachments[0]} alt="imageToSend" className={classes.image} />}
+      <Box className={classes.bubble}>
+        {(attachments.length === 1 && text !== "") && <img src={attachments[0]} alt="imageToSend" className={classes.imageText} />}
+
+        <Typography className={classes.text}>{text}</Typography>
+      </Box>
+      {attachments.length > 1 && <Box>
+        {attachments.map((attachment, i) => {
+          return <img src={attachment} alt={`${attachment}${i}`} key={`${attachment}${i}`} className={classes.image} />
+        })}
+      </Box>}
+
+    </Box>
+  )
+
 };
 
 export default SenderBubble;

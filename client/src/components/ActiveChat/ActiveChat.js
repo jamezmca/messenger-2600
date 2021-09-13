@@ -17,13 +17,19 @@ const useStyles = makeStyles(() => ({
     flexDirection: "column",
     flexGrow: 1,
     justifyContent: "space-between"
-  }
+  },
+  inputContainer: {
+    position: 'relative'
+  },
+
 }));
 
 const ActiveChat = (props) => {
   const classes = useStyles();
   const { user } = props;
   const conversation = props.conversation || {};
+
+
   return (
     <Box className={classes.root}>
       {conversation.otherUser && (
